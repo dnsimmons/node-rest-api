@@ -1,78 +1,122 @@
-# node-rest-api
-An example implementation of a REST API in Node.js with JWT authentication.
+#node-rest-api
+
+An example companies and contacts API written in Node.JS with JWT authentication serving 
+documents from a MongoDB database.
 
 ## Requirements
 
+- Node.JS
+- MongoDB
+
 ## Installation
 
-Clone or download the repo and use npm to install the app.
+Use npm to install the applications dependencies.
 
     $ npm install
     
- Start the app server.
     
-    $ node server
-    
-## Configure
+## Configuration
 
-Configuration options for the application can be found in common/config/config.js
+In the applications root rename the provided .env.example 
+to .env and edit accordingly providing a server port, MongoDB 
+connection string, and JWT secret.
 
-    module.exports = {
-        "port": 8000,
-        "appEndpoint": "http://localhost:8000",
-        "apiEndpoint": "http://localhost:8000",
-        "jwt_secret": "your-secret-phrase-here",
-        "jwt_expiration_in_seconds": 36000,
-        "mongo_str": "your-mongodb-connection-string-here"
-        ...
-    };
+    SERVER_PORT=8000
+    DB_CONNECTION="your-connection-string-goes-here"
+    JWT_SECRET="your-secret-goes-here"
     
+### Database
+
+The application expects that 3 collections exist in the 
+configured MongoDB database: users, companies, and contacts.
+
+Need a free MongoDB database? Try https://www.mongodb.com/cloud/atlas
+
+### Authentication
+
+Add the user document provided below to the users collection. 
+This will enable you to authenticate with a password of "12345678" for testing.
+
+    {
+        "name" : "Example User",
+        "email" : "example@localhost"
+        "password" : "BHq8FHt4TBm6sxgp/GSNIA==$wP4uKt1jab7YHUZlMa2zl/GWtoP1xtrzkjGG2jw+fInZskOyeHO3EGXQanD9VLeejt/YZHCo2VQ1majz1ezQKQ=="
+    }
+  
 ## Usage
+
+Start the application server.
+
+    $ npm start
+    
+ ### Authorization
  
- Authorization
+ Authenticate and fetch a bearer token.
  
-All resources in this application require a JWT token for authorization.
-To login and fetch a valid bearer token perform a POST request to the auth resource with 
-a JSON payload containing the email address and password for the user account.
+    POST http://localhost:8000/authorize
  
-    POST http://localhost:8000/auth
+ ### Companies
+ 
+ Fetch a collection of company documents.
+ 
+    GET http://localhost:8000/companies    
+    
+ Fetch a company document by ID.
+ 
+    GET http://localhost:8000/companies/<company-id>   
+    
+ Store a company document in the database. 
+ 
+    POST http://localhost:8000/companies
     
     {
-    	"email": "demo@domain.com",
-    	"password": "12345678"
-    }   
-
-The application will respond with a JSON payload containing the JWT token for use in subsequent
-API calls.
-
-    {
-        "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6...",
-        "refreshToken": "M2NKZ1Uxc0RMTGdyTHdLNDRFNkp..."
+        name: "ACME Company",
+        industry: "Manufacturing"
     }
 
-Fetch a list of users 
-
-To fetch a list of users from the database perform a GET request to the users resource. 
-You can optionally supply a page parameter for pagination in the request body.
-
-    GET http://localhost:8000/users
+ Update a company document in the database by ID. 
+ 
+    PATCH http://localhost:8000/companies/<company-id> 
     
     {
-        "page": 1
+        name: "XYZ Company",
+        industry: "Manufacturing"
     }
     
-Fetch a user by ID
-
-    GET http://localhost:8000/users/5e9ff682b5985319e4c2ff8e
-    
-Create a new user
-
-    POST http://localhost:8000/users
-    
-    {
-        firstName:"Example"
-        lastName:"User"
-        email:"nobody@domain.com"
-        password:"secret-password-here"
-        permissionLevel: 1
-    }
+  Delete a company document from the database by ID. 
+  
+     DELETE http://localhost:8000/companies/<company-id> 
+     
+### Contacts
+      
+  Fetch a collection of contact documents.
+  
+     GET http://localhost:8000/companies    
+     
+  Fetch a contact document by ID.
+  
+     GET http://localhost:8000/companies/<company-id>   
+     
+  Store a contact document in the database. 
+  
+     POST http://localhost:8000/companies
+     
+     {
+         name: "Wiley Cyote",
+         email: "nodody@localhost",
+         phone: "555-555-5555"
+     }
+ 
+  Update a contact document in the database by ID. 
+  
+     PATCH http://localhost:8000/companies/<company-id> 
+     
+     {
+         name: "Road Runner",
+         email: "nodody@localhost",
+         phone: "555-555-5555"
+     }
+     
+   Delete a contact document from the database by ID. 
+   
+      DELETE http://localhost:8000/companies/<company-id> 
