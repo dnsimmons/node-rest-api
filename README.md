@@ -1,6 +1,6 @@
-#node-rest-api
+# node-rest-api
 
-An example companies and contacts API written in Node.JS with JWT authentication serving 
+An example companies and contacts REST API written in Node.JS with JWT authentication serving 
 documents from a MongoDB database.
 
 ## Requirements
