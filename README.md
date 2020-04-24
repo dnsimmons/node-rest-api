@@ -32,7 +32,7 @@ configured MongoDB database: users, companies, and contacts.
 
 Need a free MongoDB database? Try https://www.mongodb.com/cloud/atlas
 
-### Authentication
+### Seeding
 
 Add the user document provided below to the users collection. 
 This will enable you to authenticate with a password of "12345678" for testing.
