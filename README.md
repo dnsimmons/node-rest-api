@@ -54,6 +54,11 @@ Start the application server.
  Authenticate and fetch a bearer token.
  
     POST http://localhost:8000/authorize
+    
+    {
+        "email" : "example@localhost",
+        "password" : "12345678"
+    }
  
  ### Companies
  
