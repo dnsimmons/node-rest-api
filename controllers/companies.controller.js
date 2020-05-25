@@ -5,7 +5,6 @@ const CompanyModel = require('../models/company.model');
  * Fetches a list of company documents from the database.
  */
 exports.index = async (req, res) => {
-    console.log('yes');
     try{
         const result = await CompanyModel.find().limit(10);
         res.status(200).json({status: 200, data: result});
